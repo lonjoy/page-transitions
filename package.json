@@ -17,19 +17,11 @@
   },
   "output": {
     "js/page-transitions.js": {
-      "main": "./js/page-transitions.js",
+      "main": "./page-transitions.js",
       "includes": ["."]
     },
     "css/page-transitions.css": [
       "./css/page-transitions.css"
     ]
-  },
-  "deploy": {
-    "default": {
-      "user": "admin",
-      "pass": "alipaydev",
-      "host": "assets.p76.alipay.net",
-      "path": "/home/admin/wwwroot/assets/"
-    }
   }
 }
