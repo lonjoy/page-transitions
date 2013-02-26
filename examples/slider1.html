@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>第一页</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../src/css/page-transitions.css">
+</head>
+<body>
+<div data-role="page" class="ui-page ui-page-active" style="background-color:#ff9a51">
+  Slider1<a href="./slider2.html" data-transition="slide">下一页</a>
+</div>
+<script charset="utf-8" id="seajsnode" src="http://static.alipayobjects.com/seajs/1.2.1/??sea.js"></script>
+<script>
+  seajs.config({
+    alias: {
+      '$': 'gallery/zepto/1.0.0/zepto'
+    }
+  });
+  seajs.use(['$', '../src/js/page-transition'], function ($, PageTransition) {
+    PageTransition.init();
+  });
+</script>
+</body>
+</html>

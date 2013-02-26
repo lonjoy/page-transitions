@@ -1,0 +1,27 @@
+{
+  "name": "page-transitions",
+  "root": "handy",
+  "version": "1.0.0",
+  "description": "页面切换动画组件",
+  "author": "daxia.shidx <danxia.shidx@alipay.com>",
+  "homepage": "https://github.com/handyjs/page-transitions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/handyjs/page-transitions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/handyjs/page-transitions/issues"
+  },
+  "dependencies": {
+    "$": "gallery/zepto/1.0.0/zepto"
+  },
+  "output": {
+    "page-transitions.js": {
+      "main": "./js/page-transitions.js",
+      "includes": ["."]
+    },
+    "page-transitions.css": [
+      "./css/page-transitions.css"
+    ]
+  }
+}
