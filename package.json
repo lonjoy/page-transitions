@@ -16,12 +16,7 @@
     "$": "gallery/zepto/1.0.0/zepto"
   },
   "output": {
-    "js/page-transitions.js": {
-      "main": "./page-transitions.js",
-      "includes": ["."]
-    },
-    "css/page-transitions.css": [
-      "./css/page-transitions.css"
-    ]
+    "js/page-transitions.js": ".",
+    "css/page-transitions.css": "."
   }
 }
