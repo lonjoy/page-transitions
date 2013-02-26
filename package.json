@@ -16,12 +16,20 @@
     "$": "gallery/zepto/1.0.0/zepto"
   },
   "output": {
-    "page-transitions.js": {
+    "js/page-transitions.js": {
       "main": "./js/page-transitions.js",
       "includes": ["."]
     },
-    "page-transitions.css": [
+    "css/page-transitions.css": [
       "./css/page-transitions.css"
     ]
+  },
+  "deploy": {
+    "default": {
+      "user": "admin",
+      "pass": "alipaydev",
+      "host": "assets.p76.alipay.net",
+      "path": "/home/admin/wwwroot/assets/"
+    }
   }
 }
