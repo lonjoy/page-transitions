@@ -2,6 +2,9 @@ define(function (require, exports, module) {
   var $ = require('$');
   var Path = require('./path');
 
+  var configs = {};
+  var isInit = false;
+
   function pageLoad(href, data, reverse) {
     if (!href) return;
     if (typeof data === 'boolean') {
@@ -24,6 +27,7 @@ define(function (require, exports, module) {
         }
         $('body').append(page);
         transition(page, reverse);
+        configs.onPageload && configs.onPageload(page);
       }
     });
   }
@@ -41,7 +45,10 @@ define(function (require, exports, module) {
   }
 
   return {
-    init: function () {
+    init: function (options) {
+      if (isInit) return;
+      isInit = true;
+      $.extend(configs, options);
       $(document).on('click', 'a[data-transition]', function (e) {
         var href = Path.convertUrlToDataUrl(this.href);
 

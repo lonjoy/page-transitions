@@ -14,12 +14,15 @@
   seajs.config({
     alias: {
       '$': 'gallery/zepto/1.0.0/zepto',
-      '$-debug': 'gallery/zepto/1.0.0/zepto-debug',
-      'page-transitions': 'handy/page-transitions/1.0.0/js/page-transitions-debug'
+      'page-transitions': '../src/js/page-transitions'
     }
   });
   seajs.use(['$', 'page-transitions'], function ($, PageTransition) {
-    PageTransition.init();
+    PageTransition.init({
+      onPageload: function(page){
+        console.log(page);
+      }
+    });
   });
 </script>
 </body>
