@@ -13,7 +13,7 @@
     "url": "https://github.com/handyjs/page-transitions/issues"
   },
   "dependencies": {
-    "$": "gallery/zepto/1.0.0/zepto"
+    "$": "$"
   },
   "output": {
     "js/page-transitions.js": ".",
