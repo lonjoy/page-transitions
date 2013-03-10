@@ -36,6 +36,7 @@ define(function (require, exports, module) {
 
   function transition(to, reverse) {
     var tr = reverse ? 'slide reverse' : 'slide';
+    window.scrollTop = 0;
     $('.ui-page-active').one('webkitAnimationEnd animationend',function () {
       $(this).removeClass(tr + ' out ui-page-active');
     }).addClass(tr + ' out');
