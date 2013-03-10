@@ -90,26 +90,9 @@ define(function (require, exports, module) {
         hash: matches[ 17 ] || ""
       };
     },
-    isEmbeddedPage: function (url) {
-      var u = Path.parseUrl(url);
-
-      //if the path is absolute, then we need to compare the url against
-      //both the documentUrl and the documentBase. The main reason for this
-      //is that links embedded within external documents will refer to the
-      //application document, whereas links embedded within the application
-      //document will be resolved against the document base.
-      if (u.protocol !== "") {
-        return ( u.hash && ( u.hrefNoHash === this.documentUrl.hrefNoHash || ( this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash ) ) );
-      }
-      return ( /^#/ ).test(u.href);
-    },
     convertUrlToDataUrl: function (absUrl) {
       var u = this.parseUrl(absUrl);
-      if (this.isEmbeddedPage(u)) {
-        // For embedded pages, remove the dialog hash key as in getFilePath(),
-        // otherwise the Data Url won't match the id of the embedded Page.
-        return u.hash.replace(/^#/, "");
-      } else if (this.isSameDomain(u, this.documentBase)) {
+      if (this.isSameDomain(u, this.documentBase)) {
         return u.hrefNoHash.replace(this.documentBase.domain, "");
       }
 
