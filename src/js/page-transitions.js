@@ -43,6 +43,7 @@ define(function (require, exports, module) {
 
     to.one('webkitAnimationEnd animationend',function () {
       to.removeClass(tr + ' in');
+      configs.onTransform && configs.onTransform(to);
     }).addClass(tr + ' in ui-page-active');
     document.title = to.data('title') || document.title;
     window.history.replaceState("", "", to.data('url'));
