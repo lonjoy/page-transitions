@@ -36,7 +36,6 @@ define(function (require, exports, module) {
   }
 
   function transition(to, reverse, state) {
-    var tr = reverse ? 'slide reverse' : 'slide';
     var activePage = $('.ui-page-active');
     var url = to.data('url');
     window.scrollTop = 0;
@@ -44,14 +43,20 @@ define(function (require, exports, module) {
     //处理data-rel="back"
     $('[data-rel=back]', to).attr('href', activePage.data('url'));
 
-    activePage.one('webkitAnimationEnd animationend',function () {
-      $(this).removeClass(tr + ' out ui-page-active');
-    }).addClass(tr + ' out');
+    activePage.one('webkitTransitionEnd transitionend',function () {
+      $(this).removeClass('slide out ui-page-active reverse');
+    });
+    reverse && activePage.addClass('reverse');
+    getComputedStyle(activePage[0])['-webkit-transform'];
+    activePage.addClass('slide out');
 
-    to.one('webkitAnimationEnd animationend',function () {
-      to.removeClass(tr + ' in');
+    to.one('webkitTransitionEnd transitionend',function () {
+      to.removeClass('slide in reverse').addClass('ui-page-active');
       configs.onTransform && configs.onTransform(to, reverse);
-    }).addClass(tr + ' in ui-page-active');
+    });
+    reverse && to.addClass('reverse');
+    getComputedStyle(to[0])['-webkit-transform'];
+    to.addClass('slide in');
 
     document.title = to.data('title') || document.title;
     if (state) {
