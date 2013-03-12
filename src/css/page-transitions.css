@@ -1,5 +1,4 @@
 .ui-page {
-  display:none;
   top:0;
   left:0;
   width:100%;
@@ -16,7 +15,6 @@
 }
 
 .ui-page-active {
-  display:inherit;
   -webkit-transform:translateX(0);
   transform:translateX(0);
 }
@@ -26,7 +24,7 @@
   transform:translateX(0);
 }
 
-.slide {
+.ui-page.slide {
   -webkit-transition:-webkit-transform 350ms ease;
   transition:transform 350ms ease;
 }

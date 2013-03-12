@@ -44,13 +44,13 @@ define(function (require, exports, module) {
     $('[data-rel=back]', to).attr('href', activePage.data('url'));
 
     activePage.one('webkitTransitionEnd transitionend',function () {
-      $(this).removeClass('slide out ui-page-active reverse');
+      $(this).removeClass('slide out ui-page-active reverse').hide();
     });
     reverse && activePage.addClass('reverse');
     getComputedStyle(activePage[0])['-webkit-transform'];
     activePage.addClass('slide out');
 
-    to.one('webkitTransitionEnd transitionend',function () {
+    to.show().one('webkitTransitionEnd transitionend',function () {
       to.removeClass('slide in reverse').addClass('ui-page-active');
       configs.onTransform && configs.onTransform(to, reverse);
     });
