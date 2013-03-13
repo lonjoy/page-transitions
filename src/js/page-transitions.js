@@ -6,6 +6,7 @@ define(function (require, exports, module) {
   var configs = {};
   var isInit = false;
   var oldIE = !!(Detect.browser.ie && Detect.browser.version < 10);
+  var tapEvent = (Detect.support.touch ? 'touchend' : 'click');
 
   function pageLoad(href, data, reverse, state) {
     if (!href) return;
@@ -38,24 +39,26 @@ define(function (require, exports, module) {
   function transition(to, reverse, state) {
     var activePage = $('.ui-page-active');
     var url = to.data('url');
-    window.scrollTop = 0;
+    window.scrollTo(0, 1);
 
     //处理data-rel="back"
     $('[data-rel=back]', to).attr('href', activePage.data('url'));
 
-    activePage.one('webkitTransitionEnd transitionend',function () {
+    activePage.one('webkitTransitionEnd transitionend', function () {
       $(this).removeClass('slide out ui-page-active reverse').hide();
     });
     reverse && activePage.addClass('reverse');
-    getComputedStyle(activePage[0])['-webkit-transform'];
+    getComputedStyle(activePage[0]).getPropertyValue('-webkit-transform');
+    getComputedStyle(activePage[0]).getPropertyValue('transform');
     activePage.addClass('slide out');
 
-    to.show().one('webkitTransitionEnd transitionend',function () {
+    to.show().one('webkitTransitionEnd transitionend', function () {
       to.removeClass('slide in reverse').addClass('ui-page-active');
       configs.onTransform && configs.onTransform(to, reverse);
     });
     reverse && to.addClass('reverse');
-    getComputedStyle(to[0])['-webkit-transform'];
+    getComputedStyle(to[0]).getPropertyValue('-webkit-transform');
+    getComputedStyle(to[0]).getPropertyValue('transform');
     to.addClass('slide in');
 
     document.title = to.data('title') || document.title;
@@ -73,7 +76,7 @@ define(function (require, exports, module) {
       if (isInit) return;
       isInit = true;
       $.extend(configs, options);
-      $(document).on('click', 'a[data-transition]', function (e) {
+      $(document).on(tapEvent, 'a[data-transition]', function (e) {
         var href = Path.convertUrlToDataUrl(this.href);
         var state = !($(this).data('state') === false);
         var page = $('[data-url="' + href + '"]');
@@ -94,7 +97,7 @@ define(function (require, exports, module) {
           return false;
         }
       });
-      $(document).on('click', 'a[data-rel=back]', function () {
+      $(document).on(tapEvent, 'a[data-rel=back]', function () {
         var href = Path.convertUrlToDataUrl(this.href);
         var page = $('[data-url="' + href + '"]');
         if (page.length) {
