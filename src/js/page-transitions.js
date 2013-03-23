@@ -5,7 +5,7 @@ define(function (require, exports, module) {
 
   var configs = {};
   var isInit = false;
-  var oldIE = !!(Detect.browser.ie && Detect.browser.version < 10);
+  var supported = (Detect.support.transform && Detect.support.transition);
   var tapEvent = (Detect.support.touch ? 'touchend' : 'click');
 
   function pageLoad(href, data, reverse, state) {
@@ -71,8 +71,8 @@ define(function (require, exports, module) {
 
   return {
     init: function (options) {
-      //不支持Windows Phone 7.x设备，直接跳转
-      if (oldIE) return;
+      //不支持动画和变形特性，直接跳转
+      if (!supported) return;
       if (isInit) return;
       isInit = true;
       $.extend(configs, options);
@@ -111,6 +111,30 @@ define(function (require, exports, module) {
       $('[data-role=page]').addClass('ui-page-active')
         .attr('data-url', Path.convertUrlToDataUrl(location.href))
         .data('title', document.title);
+    },
+    forward: function (url, state) {
+      if (supported) {
+        var page = $('[data-url="' + url + '"]');
+        if (page.length) {
+          transition(page, false, state);
+        } else {
+          pageLoad(url);
+        }
+      } else {
+        self.location.href = url;
+      }
+    },
+    backward: function (url) {
+      if (supported) {
+        var page = $('[data-url="' + url + '"]');
+        if (page.length) {
+          transition(page, true, true);
+        } else {
+          pageLoad(url, true, true);
+        }
+      } else {
+        self.location.href = url;
+      }
     }
   }
 });
