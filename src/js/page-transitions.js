@@ -2,6 +2,7 @@ define(function (require, exports, module) {
   var $ = require('$');
   var Detect = require('detect');
   var Path = require('./path');
+  var Transform = require('./transform');
 
   var configs = {};
   var isInit = false;
@@ -44,22 +45,21 @@ define(function (require, exports, module) {
     //处理data-rel="back"
     $('[data-rel=back]', to).attr('href', activePage.data('url'));
 
-    activePage.one('webkitTransitionEnd transitionend', function () {
-      $(this).removeClass('slide out ui-page-active reverse').hide();
-    });
-    reverse && activePage.addClass('reverse');
-    getComputedStyle(activePage[0]).getPropertyValue('-webkit-transform');
-    getComputedStyle(activePage[0]).getPropertyValue('transform');
-    activePage.addClass('slide out');
+    activePage.one('webkitTransitionEnd transitionend',function () {
+      $(this).removeClass('slide ui-page-active').hide();
+    }).addClass('slide');
 
-    to.show().one('webkitTransitionEnd transitionend', function () {
-      to.removeClass('slide in reverse').addClass('ui-page-active');
+    Transform.translate(to, [reverse ? '-100%' : '100%', 0])
+    to.show().one('webkitTransitionEnd transitionend',function () {
+      to.removeClass('slide').addClass('ui-page-active');
       configs.onTransform && configs.onTransform(to, reverse);
-    });
-    reverse && to.addClass('reverse');
-    getComputedStyle(to[0]).getPropertyValue('-webkit-transform');
-    getComputedStyle(to[0]).getPropertyValue('transform');
-    to.addClass('slide in');
+    }).addClass('slide');
+
+    activePage.css('transform');
+    to.css('transform');
+
+    Transform.translate(activePage, [reverse ? '100%' : '-100%', 0]);
+    Transform.translate(to, [0, 0]);
 
     document.title = to.data('title') || document.title;
     if (state) {
