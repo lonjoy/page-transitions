@@ -43,7 +43,7 @@ define(function (require, exports, module) {
     window.scrollTo(0, 1);
 
     //处理data-rel="back"
-    $('[data-rel=back]', to).attr('href', activePage.data('url'));
+    //$('[data-rel=back]', to).attr('href', activePage.data('url'));
 
     activePage.one('webkitTransitionEnd transitionend',function () {
       $(this).removeClass('slide ui-page-active').hide();
@@ -76,7 +76,7 @@ define(function (require, exports, module) {
       if (isInit) return;
       isInit = true;
       $.extend(configs, options);
-      $(document).on(tapEvent, 'a[data-transition]', function (e) {
+      $(document).on(tapEvent, 'a[data-transition]',function (e) {
         var href = Path.convertUrlToDataUrl(this.href);
         var state = !($(this).data('state') === false);
         var page = $('[data-url="' + href + '"]');
@@ -87,7 +87,9 @@ define(function (require, exports, module) {
         }
 
         return false;
-      });
+      }).on('click touchstart', 'a[data-transition]', function (e) {
+          e.preventDefault();
+        });
       $(document).on('submit', 'form[data-transition]', function (e) {
         if (!this.onsubmit || this.onsubmit()) {
           var href = Path.convertUrlToDataUrl(this.action);
@@ -106,7 +108,9 @@ define(function (require, exports, module) {
           pageLoad(href, true, true);
         }
         return false;
-      });
+      }).on('click touchstart', 'a[data-rel=back]', function (e) {
+          e.preventDefault();
+        });
 
       $('[data-role=page]').addClass('ui-page-active')
         .attr('data-url', Path.convertUrlToDataUrl(location.href))
