@@ -1,13 +1,8 @@
 .ui-page {
+  position:absolute;
   top:0;
   left:0;
   width:100%;
   min-height:100%;
-  position:absolute;
   border:0;
-}
-
-.ui-page.slide {
-  -webkit-transition:-webkit-transform 350ms ease;
-  transition:transform 350ms ease;
 }
