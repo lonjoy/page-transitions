@@ -49,7 +49,7 @@ define(function (require, exports, module) {
     to.data('transited', true);
 
     var url = to.data('url');
-    window.scrollTo(0, 1);
+    window.scrollTo(0, 0);
 
     var pageWidth = activePage.width();
 
