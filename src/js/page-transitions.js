@@ -9,7 +9,8 @@ define(function (require, exports, module) {
   var transitionEvent = 'webkitTransitionEnd transitionend';
 
   function getPageName(url) {
-    return url.split('?')[0];
+    var match = url.match(/([^/?]+)(\?.+)?$/);
+    return match ? match[1] : false;
   }
 
   function pageLoad(href, data, reverse, state) {
@@ -96,10 +97,14 @@ define(function (require, exports, module) {
       if (isInit) return;
       $.extend(configs, options);
       $(document).on(tapEvent, 'a[data-transition]',function (e) {
-        var href = $(this).attr('href');
-        var state = !($(this).data('state') === false);
-        var page = $('[data-url*="' + getPageName(href) + '"]');
-        if (page.length) {
+        var href = $(this).attr('href'),
+          state = !($(this).data('state') === false),
+          match = getPageName(href),
+          page;
+        if (match) {
+          page = $('[data-url*="' + match + '"]');
+        }
+        if (page && page.length) {
           transition(page, false, state);
         } else {
           pageLoad(href);
@@ -111,17 +116,25 @@ define(function (require, exports, module) {
         });
       $(document).on('submit', 'form[data-transition]', function (e) {
         if (!this.onsubmit || this.onsubmit()) {
-          var href = $(this).attr('action');
-          var state = !($(this).data('state') === false);
-          $('[data-url=^"' + getPageName(href) + '"]').remove();
+          var href = $(this).attr('action'),
+            state = !($(this).data('state') === false),
+            match = getPageName(href),
+            page;
+          if (match) {
+            $('[data-url*="' + match + '"]').remove();
+          }
           pageLoad(href, $(this).serialize(), false, state);
           return false;
         }
       });
       $(document).on(tapEvent, 'a[data-rel=back]',function () {
-        var href = $(this).attr('href');
-        var page = $('[data-url*="' + getPageName(href) + '"]');
-        if (page.length) {
+        var href = $(this).attr('href'),
+          match = getPageName(href),
+          page;
+        if (match) {
+          page = $('[data-url*="' + match + '"]');
+        }
+        if (page && page.length) {
           transition(page, true, true);
         } else {
           pageLoad(href, true, true);
@@ -138,8 +151,12 @@ define(function (require, exports, module) {
     },
     forward: function (url, state) {
       if (supported) {
-        var page = $('[data-url*="' + getPageName(url) + '"]');
-        if (page.length) {
+        var match = getPageName(url),
+          page;
+        if (match) {
+          page = $('[data-url*="' + match + '"]');
+        }
+        if (page && page.length) {
           transition(page, false, state);
         } else {
           pageLoad(url);
@@ -150,8 +167,12 @@ define(function (require, exports, module) {
     },
     backward: function (url) {
       if (supported) {
-        var page = $('[data-url=^"' + getPageName(url) + '"]');
-        if (page.length) {
+        var match = getPageName(url),
+          page;
+        if (match) {
+          page = $('[data-url*="' + match + '"]');
+        }
+        if (page && page.length) {
           transition(page, true, true);
         } else {
           pageLoad(url, true, true);
