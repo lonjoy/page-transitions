@@ -50,7 +50,7 @@ define(function (require, exports, module) {
     var url = to.data('url');
     window.scrollTo(0, 1);
 
-    var pageWidth = $(window).width();
+    var pageWidth = window.innerWidth;
 
     activePage.one(transitionEvent, function () {
       console.info(1);
