@@ -51,6 +51,9 @@ define(function (require, exports, module) {
     var url = to.data('url');
     window.scrollTo(0, 0);
 
+    //处理data-rel="back"
+    $('[data-rel=back]', to).data('href', activePage.data('url'));
+
     var pageWidth = activePage.width();
 
     activePage.one(transitionEvent, function () {
@@ -83,11 +86,11 @@ define(function (require, exports, module) {
     }, 50);
 
     document.title = to.data('title') || document.title;
-    if (state) {
-      window.history.replaceState("", "", url);
-    } else {
-      location.hash = '#' + url;
-    }
+//    if (state) {
+//      window.history.replaceState("", "", url);
+//    } else {
+//      location.hash = '#' + url;
+//    }
   }
 
   return {
@@ -129,8 +132,9 @@ define(function (require, exports, module) {
       });
       $(document).on(tapEvent, 'a[data-rel=back]',function () {
         var href = $(this).attr('href'),
-          match = getPageName(href),
+          match = getPageName($(this).data('href')),
           page;
+
         if (match) {
           page = $('[data-url*="' + match + '"]');
         }
