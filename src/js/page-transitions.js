@@ -9,8 +9,8 @@ define(function (require, exports, module) {
   var transitionEvent = 'webkitTransitionEnd transitionend';
 
   function getPageName(url) {
-    var match = url.match(/([^/?]+)(\?.+)?$/);
-    return match ? match[1] : false;
+    var match = url.match(/([^/?]+?)(?:\.htm[l]?)?(?:\?.+)?$/i);
+    return match ? match[1].toLowerCase() : false;
   }
 
   function pageLoad(href, data, reverse, state) {
@@ -30,7 +30,7 @@ define(function (require, exports, module) {
           newPageTitle = html.match(/<title[^>]*>([^<]*)/) && RegExp.$1,
           page;
         all.get(0).innerHTML = html;
-        page = all.find('[data-role=page]').first().removeClass('ui-page-active').css('transition', '0ms').hide().attr('data-url', href);
+        page = all.find('[data-role=page]').first().removeClass('ui-page-active').css('transition', '0ms').hide().attr('data-url', getPageName(href));
         if (newPageTitle) {
           page.data('title', newPageTitle);
         }
@@ -57,7 +57,6 @@ define(function (require, exports, module) {
     var pageWidth = activePage.width();
 
     activePage.one(transitionEvent, function () {
-      console.info(1);
       $(this).removeClass('ui-page-active')
         .width('100%')
         .css('transition', '0ms')
@@ -66,7 +65,6 @@ define(function (require, exports, module) {
     });
 
     to.show().one(transitionEvent, function () {
-      console.info(2);
       $(this).addClass('ui-page-active')
         .width('100%')
         .css('transition', '0ms')
@@ -86,11 +84,11 @@ define(function (require, exports, module) {
     }, 50);
 
     document.title = to.data('title') || document.title;
-//    if (state) {
-//      window.history.replaceState("", "", url);
-//    } else {
-//      location.hash = '#' + url;
-//    }
+    //    if (state) {
+    //      window.history.replaceState("", "", url);
+    //    } else {
+    //      location.hash = '#' + url;
+    //    }
   }
 
   return {
@@ -105,7 +103,7 @@ define(function (require, exports, module) {
           match = getPageName(href),
           page;
         if (match) {
-          page = $('[data-url*="' + match + '"]');
+          page = $('[data-url="' + match + '"]');
         }
         if (page && page.length) {
           transition(page, false, state);
@@ -124,7 +122,7 @@ define(function (require, exports, module) {
             match = getPageName(href),
             page;
           if (match) {
-            $('[data-url*="' + match + '"]').remove();
+            $('[data-url="' + match + '"]').remove();
           }
           pageLoad(href, $(this).serialize(), false, state);
           return false;
@@ -136,7 +134,7 @@ define(function (require, exports, module) {
           page;
 
         if (match) {
-          page = $('[data-url*="' + match + '"]');
+          page = $('[data-url="' + match + '"]');
         }
         if (page && page.length) {
           transition(page, true, true);
@@ -158,7 +156,7 @@ define(function (require, exports, module) {
         var match = getPageName(url),
           page;
         if (match) {
-          page = $('[data-url*="' + match + '"]');
+          page = $('[data-url="' + match + '"]');
         }
         if (page && page.length) {
           transition(page, false, state);
