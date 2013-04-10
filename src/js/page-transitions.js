@@ -7,6 +7,7 @@ define(function (require, exports, module) {
   var supported = (Detect.support.transform && Detect.support.transition);
   var tapEvent = 'touchend click';
   var transitionEvent = 'webkitTransitionEnd transitionend';
+  var PageTransitions;
 
   function getPageName(url) {
     var match = url.match(/([^/?]+?)(?:\.htm[l]?)?(?:\?.+)?$/i);
@@ -69,12 +70,14 @@ define(function (require, exports, module) {
         .width('100%')
         .css('transition', '0ms')
         .removeData('transited');
+      PageTransitions.transitted = false;
       configs.onTransform && configs.onTransform($(this), reverse);
     });
 
     activePage.width(pageWidth + 'px').css('transform', 'translateX(0px)');
     to.width(pageWidth + 'px').css('transform', (reverse ? 'translateX(-' + pageWidth + 'px)' : 'translateX(' + pageWidth + 'px)'));
 
+    PageTransitions.transitted = true;
     setTimeout(function () {
       activePage.css('transition', '350ms');
       to.css('transition', '350ms');
@@ -91,7 +94,7 @@ define(function (require, exports, module) {
     //    }
   }
 
-  return {
+  PageTransitions = {
     init: function (options) {
       //不支持动画和变形特性，直接跳转
       if (!supported) return;
@@ -184,4 +187,5 @@ define(function (require, exports, module) {
       }
     }
   }
+  return PageTransitions;
 });
