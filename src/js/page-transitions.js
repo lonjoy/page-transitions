@@ -78,6 +78,7 @@ define(function (require, exports, module) {
     to.width(pageWidth + 'px').css('transform', (reverse ? 'translateX(-' + pageWidth + 'px)' : 'translateX(' + pageWidth + 'px)'));
 
     PageTransitions.transitted = true;
+    configs.onTransformBegin && configs.onTransformBegin(to, reverse);
     setTimeout(function () {
       activePage.css('transition', '350ms');
       to.css('transition', '350ms');
