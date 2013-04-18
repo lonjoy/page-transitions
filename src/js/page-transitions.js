@@ -132,7 +132,7 @@ define(function (require, exports, module) {
           return false;
         }
       });
-      $(document).on(tapEvent, 'a[data-rel=back]',function () {
+      $(document).on(tapEvent, '[data-rel=back]',function () {
         var href = $(this).attr('href'),
           match = getPageName($(this).data('href')),
           page;
@@ -146,7 +146,7 @@ define(function (require, exports, module) {
           pageLoad(href, true, true);
         }
         return false;
-      }).on('click touchend', 'a[data-rel=back]', function (e) {
+      }).on('click touchend', '[data-rel=back]', function (e) {
           return false;
         });
 
