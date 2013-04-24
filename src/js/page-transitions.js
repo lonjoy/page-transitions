@@ -61,6 +61,7 @@ define(function (require, exports, module) {
       $(this).removeClass('ui-page-active')
         .width('100%')
         .css('transition', '0ms')
+        .css('transform', '')
         .removeData('transited')
         .hide();
     });
@@ -69,6 +70,7 @@ define(function (require, exports, module) {
       $(this).addClass('ui-page-active')
         .width('100%')
         .css('transition', '0ms')
+        .css('transform', '')
         .removeData('transited');
       PageTransitions.transitted = false;
       configs.onTransform && configs.onTransform($(this), reverse);
