@@ -1,7 +1,7 @@
 {
   "name": "page-transitions",
   "root": "handy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "页面切换动画组件",
   "author": "daxia.shidx <danxia.shidx@alipay.com>",
   "homepage": "https://github.com/handyjs/page-transitions",

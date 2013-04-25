@@ -50,7 +50,7 @@ define(function (require, exports, module) {
     to.data('transited', true);
 
     var url = to.data('url');
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 1);
 
     //处理data-rel="back"
     $('[data-rel=back]', to).data('href', activePage.data('url'));
@@ -72,6 +72,7 @@ define(function (require, exports, module) {
         .css('transition', '0ms')
         .css('transform', '')
         .removeData('transited');
+      window.scrollTo(0, 0);
       PageTransitions.transitted = false;
       configs.onTransform && configs.onTransform($(this), reverse);
     });
