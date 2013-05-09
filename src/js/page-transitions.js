@@ -5,7 +5,7 @@ define(function (require, exports, module) {
   var configs = {};
   var isInit = false;
   var supported = (Detect.support.transform && Detect.support.transition);
-  var tapEvent = 'touchend click';
+  var tapEvent = Detect.support.touch ? 'touchstart' : 'click';
   var transitionEvent = 'webkitTransitionEnd transitionend';
   var PageTransitions;
 
@@ -104,7 +104,7 @@ define(function (require, exports, module) {
       if (!supported) return;
       if (isInit) return;
       $.extend(configs, options);
-      $(document).on(tapEvent, 'a[data-transition]',function (e) {
+      $(document).on(tapEvent, 'a[data-transition]', function (e) {
         var href = $(this).attr('href'),
           state = !($(this).data('state') === false),
           match = getPageName(href),
@@ -119,9 +119,8 @@ define(function (require, exports, module) {
         }
 
         return false;
-      }).on('click touchend', 'a[data-transition]', function (e) {
-          return false;
-        });
+      });
+
       $(document).on('submit', 'form[data-transition]', function (e) {
         if (!this.onsubmit || this.onsubmit()) {
           var href = $(this).attr('action'),
@@ -135,7 +134,8 @@ define(function (require, exports, module) {
           return false;
         }
       });
-      $(document).on(tapEvent, '[data-rel=back]',function () {
+
+      $(document).on(tapEvent, '[data-rel=back]', function () {
         var href = $(this).attr('href'),
           match = getPageName($(this).data('href')),
           page;
@@ -149,9 +149,7 @@ define(function (require, exports, module) {
           pageLoad(href, true, true);
         }
         return false;
-      }).on('click touchend', '[data-rel=back]', function (e) {
-          return false;
-        });
+      });
 
       $('[data-role=page]').addClass('ui-page-active')
         .css('transition', '0ms')

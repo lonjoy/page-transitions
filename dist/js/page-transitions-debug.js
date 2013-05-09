@@ -4,7 +4,7 @@ define("handy/page-transitions/1.0.1/js/page-transitions-debug", [ "$-debug", "h
     var configs = {};
     var isInit = false;
     var supported = Detect.support.transform && Detect.support.transition;
-    var tapEvent = "touchend click";
+    var tapEvent = Detect.support.touch ? "touchstart" : "click";
     var transitionEvent = "webkitTransitionEnd transitionend";
     var PageTransitions;
     function getPageName(url) {
@@ -84,8 +84,6 @@ define("handy/page-transitions/1.0.1/js/page-transitions-debug", [ "$-debug", "h
                     pageLoad(href);
                 }
                 return false;
-            }).on("click touchend", "a[data-transition]", function(e) {
-                return false;
             });
             $(document).on("submit", "form[data-transition]", function(e) {
                 if (!this.onsubmit || this.onsubmit()) {
@@ -107,8 +105,6 @@ define("handy/page-transitions/1.0.1/js/page-transitions-debug", [ "$-debug", "h
                 } else {
                     pageLoad(href, true, true);
                 }
-                return false;
-            }).on("click touchend", "[data-rel=back]", function(e) {
                 return false;
             });
             $("[data-role=page]").addClass("ui-page-active").css("transition", "0ms").attr("data-url", getPageName(location.href)).data("title", document.title);
