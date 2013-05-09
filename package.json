@@ -1,6 +1,6 @@
 {
   "name": "page-transitions",
-  "root": "handy",
+  "family": "handy",
   "version": "1.0.1",
   "description": "页面切换动画组件",
   "author": "daxia.shidx <danxia.shidx@alipay.com>",
@@ -12,12 +12,14 @@
   "bugs": {
     "url": "https://github.com/handyjs/page-transitions/issues"
   },
-  "dependencies": {
-    "$": "$",
-    "detect": "handy/base/1.0.0/js/detect"
-  },
-  "output": {
-    "js/page-transitions.js": ".",
-    "css/page-transitions.css": "."
+  "spm": {
+    "alias": {
+      "$": "$",
+      "detect": "handy/base/1.0.0/js/detect"
+    },
+    "output": [
+      "js/page-transitions.js",
+      "css/page-transitions.css"
+    ]
   }
 }
